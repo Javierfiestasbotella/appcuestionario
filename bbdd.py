@@ -12,7 +12,7 @@ global messagebox
 dbConnect={
     'host':'lldk499.servidoresdns.net',
     'user':'qadr580',
-    'password':'Calafate1123',
+    'password':'********',
     'database':'qadr580',
     
 
