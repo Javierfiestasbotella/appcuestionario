@@ -31,11 +31,35 @@ class Cuestionario:
         self.direccion=vdireccion.set('')
         self.comentario=vcomentario.set('')
 
+    def acerca_de(self):
+        messagebox.showinfo(message="Para poder crear usuarios se ha de rellenar todos los camppos menos el campo Id que se autocompleta directamente, sin lo que quieres es borrar un cliente solo has de introducir su id y darle a la tecala de borrar. Si quieres borrar todos los campos por equivocacion puedes hacerlo haciendo click en borrar campos dentro de ñla opcion borrar", title="Instrucciones")
+
+        
+    def borrar_campos(self):
+        self.id=vid.set('')
+        self.nombre=vnombre.set('')
+        self.password=vpassword.set('')
+        self.apellidos=vapellidos.set('')
+        self.direccion=vdireccion.set('')
+        self.comentario=vcomentario.set('')
+
     def borrar_usuario(self):
         self.id=vid.get()
         borrar(c.id)
         self.id=vid.set('')
 
+    def actualizar_usuario(self):
+        self.nombre=vnombre.get()#input('Introduce tu nombre completo: ')
+        self.password=vpassword.get()#getpass.getpass("Introduzca su contraseña: ")
+        self.apellidos=vapellidos.get()#input('Introduzaca sus apellidos: ')
+        self.direccion=vdireccion.get()#input('Introduzca su dirección: ')
+        self.comentario=vcomentario.get()#input('Introduzca su comentario: ')
+        actualizar2(c.nombre,c.password,c.apellidos,c.direccion,c.comentario,c.id)
+
+    def conectar(self):
+        r1=messagebox.askokcancel(message='¿Quieres crear una nueva tabla? ')
+        if r1==True:
+            self.nombre_tabla=messagebox.RETRY('Escribe el nombre de la tabla: ')
 
 
     def interfaz(self):
@@ -54,7 +78,8 @@ class Cuestionario:
         global vcomentario
         global vid
         global vpassword
-
+        
+        
         vnombre=StringVar()
         vapellidos=StringVar()
         vid=StringVar()
@@ -68,26 +93,26 @@ class Cuestionario:
 
         # Crea un menu desplegable y lo agrega al menu barra
         menuarchivo = Menu(menubarra, tearoff=0)
-        menuarchivo.add_command(label="Conectar", command=hola)
+        menuarchivo.add_command(label="Conectar", command=c.conectar)
         menuarchivo.add_separator()
         menuarchivo.add_command(label="Salir", command=self.raiz.quit)
         menubarra.add_cascade(label="BBDD", menu=menuarchivo)
 
         # Crea dos menus desplegables mas
         menueditar = Menu(menubarra, tearoff=0)
-        menueditar.add_command(label="Borrar campos", command=hola)
+        menueditar.add_command(label="Borrar campos", command=c.borrar_campos)
         menubarra.add_cascade(label="Borrar", menu=menueditar)
         
         menuayuda = Menu(menubarra, tearoff=0)
         menuayuda.add_command(label="Crear", command=c.ingresar_usuario)
-        menuayuda.add_command(label="Leer", command=hola)
-        menuayuda.add_command(label="Actualizar", command=hola)
+        menuayuda.add_command(label="Leer", command=consultar_bbdd)
+        menuayuda.add_command(label="Actualizar", command=c.actualizar_usuario)
         menuayuda.add_command(label="Borrar", command=c.borrar_usuario)
         menubarra.add_cascade(label="CRUD", menu=menuayuda)
 
         menuayuda2 = Menu(menubarra, tearoff=0)
         menuayuda2.add_command(label="Licencia", command=hola)
-        menuayuda2.add_command(label="Acerca de...", command=hola)
+        menuayuda2.add_command(label="Acerca de...", command=c.acerca_de)
         menubarra.add_cascade(label="Ayuda", menu=menuayuda2)
 
         self.etiqueta_id=Label(self.raiz,text="Id").place(x=30, y=20) 
@@ -107,10 +132,10 @@ class Cuestionario:
         
         self.etiqueta_comentario=Label(self.raiz,text="Comentario").place(x=30, y=210)
         texto = Text(self.raiz)
-        texto.place(x=130, y=210,textvariable=vcomentario)
-
-        texto.config(width=12, height=5, 
-             padx=15, pady=15, selectbackground="red")
+        texto.place(x=130, y=210)
+        scrollvert=Scrollbar(self.raiz,command=texto.yview)
+        scrollvert.place(x=260,y=210)
+        texto.config(width=12, height=5,padx=15, pady=15,selectbackground="red")
 
         self.boton7=Button(self.raiz,text="Crear", command=c.ingresar_usuario).place(x=20,y=350)
         self.boton8=Button(self.raiz,text="Leer").place(x=80,y=350)

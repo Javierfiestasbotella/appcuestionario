@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from codecs import encode
 import mysql.connector
 import getpass
 import  time
@@ -12,7 +13,7 @@ global messagebox
 dbConnect={
     'host':'lldk499.servidoresdns.net',
     'user':'qadr580',
-    'password':'Calafate1123',
+    'password':'******',
     'database':'qadr580',
     
 
@@ -25,16 +26,19 @@ def crear_tabla():#crea ok
 
 
 #Consultar tabla de la bbdd consulta la base de datos actual
-def consultar_ddbb():
+def consultar_bbdd():
     global resultado
     global bd
+    conexion=mysql.connector.connect(**dbConnect)
+    cursor=conexion.cursor()
     sql="Select * from datos1"
     cursor.execute(sql)
     resultado=cursor.fetchall()
     #print(resultado)
     for datos in resultado:
         bd=str(datos[0])+" "+datos[1]+" "+datos[2]+" "+str(datos[3])+"\n"
-        #print(datos[1])
+        messagebox.showinfo(message=bd)
+        #print(bd)
 
 def registrar(nombre, password,apellidos,direccion,comentario):#registra ok
     #introducir nuevo usuario
@@ -48,10 +52,11 @@ def registrar(nombre, password,apellidos,direccion,comentario):#registra ok
     cursor.close()
     conexion.close()
 
-def actualizar():
+def actualizar(lugar,cambio,antes):
     conexion=mysql.connector.connect(**dbConnect)
     cursor=conexion.cursor()
-    sql = "UPDATE datos1 SET nombre = 'jose' WHERE nombre = 'Frncisco javier'"
+    #sql = "UPDATE datos1 SET nombre = 'jose' WHERE nombre = 'Frncisco javier'"
+    sql = "UPDATE datos1 SET {} = {} WHERE {} = {}".format(lugar,cambio,lugar,antes)
 
     cursor.execute(sql)
 
@@ -65,9 +70,6 @@ def borrar(n):
     
 
     conexion.commit()
-
-
-
 def inicio_de_sesion():
     global usuario_usu
     global resultado
@@ -90,6 +92,21 @@ def imp():
     print('CONEXION OK')
 
 
+def actualizar2(nombre,password,apellidos,direccion,comentario,id):
+    conexion=mysql.connector.connect(**dbConnect)
+    cursor=conexion.cursor()
+    cursor.execute("UPDATE datos1 SET NOMBRE='" + nombre +
+    "',PASSWORD='" + password +
+    "',APELLIDOS='" + apellidos +
+    "',DIRECCION='" + direccion +
+    "',COMENTARIO='" + comentario +
+    "'WHERE ID=" + id)
+    conexion.commit()
+
+    messagebox.showinfo('BBDD', "Registro actualizado con exito")
+
+
+#consultar_bbdd()
 
 #crear_tabla()
 #registrar()
