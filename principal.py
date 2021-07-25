@@ -33,7 +33,6 @@ class Cuestionario:
 
     def acerca_de(self):
         messagebox.showinfo(message="Para poder crear usuarios se ha de rellenar todos los camppos menos el campo Id que se autocompleta directamente, sin lo que quieres es borrar un cliente solo has de introducir su id y darle a la tecala de borrar. Si quieres borrar todos los campos por equivocacion puedes hacerlo haciendo click en borrar campos dentro de ñla opcion borrar", title="Instrucciones")
-
         
     def borrar_campos(self):
         self.id=vid.set('')
@@ -44,23 +43,31 @@ class Cuestionario:
         self.comentario=vcomentario.set('')
 
     def borrar_usuario(self):
-        self.id=vid.get()
+        self.id=int(vid.get())
         borrar(c.id)
         self.id=vid.set('')
 
     def actualizar_usuario(self):
+        self.id=int(vid.get())
         self.nombre=vnombre.get()#input('Introduce tu nombre completo: ')
         self.password=vpassword.get()#getpass.getpass("Introduzca su contraseña: ")
         self.apellidos=vapellidos.get()#input('Introduzaca sus apellidos: ')
         self.direccion=vdireccion.get()#input('Introduzca su dirección: ')
         self.comentario=vcomentario.get()#input('Introduzca su comentario: ')
         actualizar2(c.nombre,c.password,c.apellidos,c.direccion,c.comentario,c.id)
+        self.id=vid.set('')
+        self.nombre=vnombre.set('')
+        self.password=vpassword.set('')
+        self.apellidos=vapellidos.set('')
+        self.direccion=vdireccion.set('')
+        self.comentario=vcomentario.set('')
 
     def conectar(self):
-        r1=messagebox.askokcancel(message='¿Quieres crear una nueva tabla? ')
-        if r1==True:
-            self.nombre_tabla=messagebox.RETRY('Escribe el nombre de la tabla: ')
-
+        try:
+            crear_tabla()
+        except:
+            messagebox.askokcancel(message='Esta tabla ya está creada ')
+            
 
     def interfaz(self):
       
@@ -105,7 +112,7 @@ class Cuestionario:
         
         menuayuda = Menu(menubarra, tearoff=0)
         menuayuda.add_command(label="Crear", command=c.ingresar_usuario)
-        menuayuda.add_command(label="Leer", command=consultar_bbdd)
+        menuayuda.add_command(label="Leer", command=lambda: consultar_bbdd(int(vid.get())))
         menuayuda.add_command(label="Actualizar", command=c.actualizar_usuario)
         menuayuda.add_command(label="Borrar", command=c.borrar_usuario)
         menubarra.add_cascade(label="CRUD", menu=menuayuda)
@@ -138,8 +145,8 @@ class Cuestionario:
         texto.config(width=12, height=5,padx=15, pady=15,selectbackground="red")
 
         self.boton7=Button(self.raiz,text="Crear", command=c.ingresar_usuario).place(x=20,y=350)
-        self.boton8=Button(self.raiz,text="Leer").place(x=80,y=350)
-        self.boton9=Button(self.raiz,text="Actualizar").place(x=140,y=350)
+        self.boton8=Button(self.raiz,text="Leer",command=lambda: consultar_bbdd(int(vid.get()))).place(x=80,y=350)
+        self.boton9=Button(self.raiz,text="Actualizar", command=c.actualizar_usuario).place(x=140,y=350)
         self.boton10=Button(self.raiz,text="Borrar", command=c.borrar_usuario).place(x=220,y=350)
         #self.espaciox.pack()
         Label(self.raiz).pack()

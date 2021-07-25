@@ -13,11 +13,7 @@ global messagebox
 dbConnect={
     'host':'lldk499.servidoresdns.net',
     'user':'qadr580',
-<<<<<<< HEAD
-    'password':'******',
-=======
-    'password':'********',
->>>>>>> d90e15d8b94cee591901afd5eb3ae295bd7db219
+    'password':'**********',
     'database':'qadr580',
     
 
@@ -26,16 +22,15 @@ def crear_tabla():#crea ok
     conexion=mysql.connector.connect(**dbConnect)
     cursor=conexion.cursor()
     cursor.execute("CREATE TABLE datos1 (id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(255), password VARCHAR(10), apellidos VARCHAR(20), direccion VARCHAR(255), comentario VARCHAR(150))")
-    #cursor.execute('CREATE TABLE DATOS (ID INTEGER PRIMARY KEY AUTO_INCREMENT,NOMBRE VARCHAR(50),PASSWORD VARCHAR(10), APELLIDOS VARCHAR(20),DIRECCION VARCHAR(20),COMENTARIO(150))')
 
 
 #Consultar tabla de la bbdd consulta la base de datos actual
-def consultar_bbdd():
+def consultar_bbdd(n):
     global resultado
     global bd
     conexion=mysql.connector.connect(**dbConnect)
     cursor=conexion.cursor()
-    sql="Select * from datos1"
+    sql="Select * from datos1 Where id={}".format(n)
     cursor.execute(sql)
     resultado=cursor.fetchall()
     #print(resultado)
@@ -56,17 +51,6 @@ def registrar(nombre, password,apellidos,direccion,comentario):#registra ok
     cursor.close()
     conexion.close()
 
-def actualizar(lugar,cambio,antes):
-    conexion=mysql.connector.connect(**dbConnect)
-    cursor=conexion.cursor()
-    #sql = "UPDATE datos1 SET nombre = 'jose' WHERE nombre = 'Frncisco javier'"
-    sql = "UPDATE datos1 SET {} = {} WHERE {} = {}".format(lugar,cambio,lugar,antes)
-
-    cursor.execute(sql)
-
-    conexion.commit()
-
-    print(cursor.rowcount, "registros afectado/s")
 def borrar(n):
     conexion=mysql.connector.connect(**dbConnect)
     cursor=conexion.cursor()
@@ -95,25 +79,24 @@ def inicio_de_sesion():
 def imp():
     print('CONEXION OK')
 
-
 def actualizar2(nombre,password,apellidos,direccion,comentario,id):
     conexion=mysql.connector.connect(**dbConnect)
     cursor=conexion.cursor()
-    cursor.execute("UPDATE datos1 SET NOMBRE='" + nombre +
-    "',PASSWORD='" + password +
-    "',APELLIDOS='" + apellidos +
-    "',DIRECCION='" + direccion +
-    "',COMENTARIO='" + comentario +
-    "'WHERE ID=" + id)
+    sql='''UPDATE datos1 SET nombre=%s,password=%s,apellidos=%s,direccion=%s,comentario=%s WHERE id=%s'''
+    val =(nombre,password,apellidos,direccion,comentario,id)
+    cursor.execute(sql,val)
+    cursor.fetchall()
+    print(cursor.rowcount, "registro actualizado")
     conexion.commit()
+    cursor.close()
+    conexion.close()
 
-    messagebox.showinfo('BBDD', "Registro actualizado con exito")
 
 
-#consultar_bbdd()
+#consultar_bbdd(3)
 
 #crear_tabla()
 #registrar()
-#actualizar()
+#actualizar2('silvicchu','007777777','Valverde Cuesta','sil@host.com',' ',3)
 #borrar(1)
 
