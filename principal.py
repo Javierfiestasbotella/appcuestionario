@@ -32,8 +32,11 @@ class Cuestionario:
         self.comentario=vcomentario.set('')
 
     def acerca_de(self):
-        messagebox.showinfo(message="Para poder crear usuarios se ha de rellenar todos los camppos menos el campo Id que se autocompleta directamente, sin lo que quieres es borrar un cliente solo has de introducir su id y darle a la tecala de borrar. Si quieres borrar todos los campos por equivocacion puedes hacerlo haciendo click en borrar campos dentro de ñla opcion borrar", title="Instrucciones")
-        
+        messagebox.showinfo(message="Cuestionario de conexion con BBDD en Mysql:\n------------\nBBDD:\n       Conectar: crea la BBDD, en caso contrario, avisa. \n      Salir: Sale del programa cuestionario. \n------------\nBorrar: Borra los campos escritos\n------------\nCRUD:\n       Crea: Crea usuario\n        Lee: Lee los datos del usuario por su id.\n     Actualizar:Actualiza datos de usuario por su id.\n      Borra: borra el usuario por su id.\n------------\nAyuda:\n        Acerca de: Istrucciones de la app.\n        Licencia: Licencia de la app.", title="Instrucciones")
+    def licencia(self):
+        messagebox.showinfo(message="Ejercicio en Python: Pildoras Informaticas\n-------\nAlumno:  Fº Javier Fiestas Botella\nTutor:  Juan Díaz\nCurso:  Python Tutorizado 2020 / 2021", title="Licencia")
+
+
     def borrar_campos(self):
         self.id=vid.set('')
         self.nombre=vnombre.set('')
@@ -118,7 +121,7 @@ class Cuestionario:
         menubarra.add_cascade(label="CRUD", menu=menuayuda)
 
         menuayuda2 = Menu(menubarra, tearoff=0)
-        menuayuda2.add_command(label="Licencia", command=hola)
+        menuayuda2.add_command(label="Licencia", command=c.licencia)
         menuayuda2.add_command(label="Acerca de...", command=c.acerca_de)
         menubarra.add_cascade(label="Ayuda", menu=menuayuda2)
 
