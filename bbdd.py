@@ -12,7 +12,7 @@ global messagebox
 dbConnect={
     'host':'lldk499.servidoresdns.net',
     'user':'qadr580',
-    'password':'Calafate1123',
+    'password':'*******',
     'database':'qadr580',
     
 
@@ -24,7 +24,7 @@ def crear_tabla():#crea ok
 
 
 #Consultar tabla de la bbdd consulta la base de datos actual
-def consultar_bbdd(n,b):
+def consultar_bbdd(n):
     global resultado
     global bd
     conexion=mysql.connector.connect(**dbConnect)
@@ -37,7 +37,6 @@ def consultar_bbdd(n,b):
     for datos in resultado:
         #bd=str(datos[1])+" "+datos[2]+" "+datos[3]+" "+str(datos[4])+"\n"
         bd='Nombre--> {}\nContraseña--> {}\nApellidos--> {}\nEmail--> {}'.format(datos[1],datos[2],datos[3],datos[4])
-        b=datos[3]
         messagebox.showinfo(message=bd)
         #print(bd)
 
