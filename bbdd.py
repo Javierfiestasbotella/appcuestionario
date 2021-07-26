@@ -5,7 +5,6 @@ import getpass
 import  time
 from datetime import datetime
 import time as t
-#import saimon.py
 from tkinter import messagebox
 global resultado
 global messagebox
@@ -13,7 +12,7 @@ global messagebox
 dbConnect={
     'host':'lldk499.servidoresdns.net',
     'user':'qadr580',
-    'password':'*********',
+    'password':'Calafate1123',
     'database':'qadr580',
     
 
@@ -25,7 +24,7 @@ def crear_tabla():#crea ok
 
 
 #Consultar tabla de la bbdd consulta la base de datos actual
-def consultar_bbdd(n):
+def consultar_bbdd(n,b):
     global resultado
     global bd
     conexion=mysql.connector.connect(**dbConnect)
@@ -34,8 +33,11 @@ def consultar_bbdd(n):
     cursor.execute(sql)
     resultado=cursor.fetchall()
     #print(resultado)
+    #print( datos[0],datos[1],datos[2],datos[3],datos[4])
     for datos in resultado:
-        bd=str(datos[0])+" "+datos[1]+" "+datos[2]+" "+str(datos[3])+"\n"
+        #bd=str(datos[1])+" "+datos[2]+" "+datos[3]+" "+str(datos[4])+"\n"
+        bd='Nombre--> {}\nContraseña--> {}\nApellidos--> {}\nEmail--> {}'.format(datos[1],datos[2],datos[3],datos[4])
+        b=datos[3]
         messagebox.showinfo(message=bd)
         #print(bd)
 
@@ -94,7 +96,6 @@ def actualizar2(nombre,password,apellidos,direccion,comentario,id):
 
 
 #consultar_bbdd(3)
-
 #crear_tabla()
 #registrar()
 #actualizar2('silvicchu','007777777','Valverde Cuesta','sil@host.com',' ',3)

@@ -71,6 +71,18 @@ class Cuestionario:
         except:
             messagebox.askokcancel(message='Esta tabla ya está creada ')
             
+    def lee_usuario(self):
+        self.id=int(vid.get())
+        consultar_bbdd(c.id)
+        #print(resultado)
+        self.nombre=vnombre.set('')
+        self.password=vpassword.set('')
+        self.apellidos=vapellidos.set('')
+        self.direccion=vdireccion.set('')
+        self.comentario=vcomentario.set('')
+        
+
+
 
     def interfaz(self):
       
@@ -148,7 +160,7 @@ class Cuestionario:
         texto.config(width=12, height=5,padx=15, pady=15,selectbackground="red")
 
         self.boton7=Button(self.raiz,text="Crear", command=c.ingresar_usuario).place(x=20,y=350)
-        self.boton8=Button(self.raiz,text="Leer",command=lambda: consultar_bbdd(int(vid.get()))).place(x=80,y=350)
+        self.boton8=Button(self.raiz,text="Leer",command=c.lee_usuario).place(x=80,y=350)
         self.boton9=Button(self.raiz,text="Actualizar", command=c.actualizar_usuario).place(x=140,y=350)
         self.boton10=Button(self.raiz,text="Borrar", command=c.borrar_usuario).place(x=220,y=350)
         #self.espaciox.pack()
