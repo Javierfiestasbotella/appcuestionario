@@ -25,17 +25,13 @@ class Cuestionario:
         self.direccion=vdireccion.get()#input('Introduzca su dirección: ')
         self.comentario=vcomentario.get()#input('Introduzca su comentario: ')
         registrar(c.nombre,c.password,c.apellidos,c.direccion,c.comentario)
-        self.nombre=vnombre.set('')
-        self.password=vpassword.set('')
-        self.apellidos=vapellidos.set('')
-        self.direccion=vdireccion.set('')
-        self.comentario=vcomentario.set('')
+        c.borrar_campos()
 
     def acerca_de(self):
         messagebox.showinfo(message="Cuestionario de conexion con BBDD en Mysql:\n------------\nBBDD:\n       Conectar: crea la BBDD, en caso contrario, avisa. \n      Salir: Sale del programa cuestionario. \n------------\nBorrar: Borra los campos escritos\n------------\nCRUD:\n       Crea: Crea usuario\n        Lee: Lee los datos del usuario por su id.\n     Actualizar:Actualiza datos de usuario por su id.\n      Borra: borra el usuario por su id.\n------------\nAyuda:\n        Acerca de: Istrucciones de la app.\n        Licencia: Licencia de la app.", title="Instrucciones")
+
     def licencia(self):
         messagebox.showinfo(message="Ejercicio en Python: Pildoras Informaticas\n-------\nAlumno:  Fº Javier Fiestas Botella\nTutor:  Juan Díaz\nCurso:  Python Tutorizado 2020 / 2021", title="Licencia")
-
 
     def borrar_campos(self):
         self.id=vid.set('')
@@ -58,12 +54,7 @@ class Cuestionario:
         self.direccion=vdireccion.get()#input('Introduzca su dirección: ')
         self.comentario=vcomentario.get()#input('Introduzca su comentario: ')
         actualizar2(c.nombre,c.password,c.apellidos,c.direccion,c.comentario,c.id)
-        self.id=vid.set('')
-        self.nombre=vnombre.set('')
-        self.password=vpassword.set('')
-        self.apellidos=vapellidos.set('')
-        self.direccion=vdireccion.set('')
-        self.comentario=vcomentario.set('')
+        c.borrar_campos()
 
     def conectar(self):
         try:
@@ -72,18 +63,18 @@ class Cuestionario:
             messagebox.askokcancel(message='Esta tabla ya está creada ')
             
     def lee_usuario(self):
+        lista=[]
         self.id=int(vid.get())
-        consultar_bbdd(c.id)
+        datos=consultar_bbdd(c.id,c.nombre,c.password,c.apellidos,c.direccion,lista)
+        for i in datos:
         #print(resultado)
-        self.nombre=vnombre.set('')
-        self.password=vpassword.set('')
-        self.apellidos=vapellidos.set('')
-        self.direccion=vdireccion.set('')
-        self.comentario=vcomentario.set('')
+            self.nombre=vnombre.set(datos[0])
+            self.password=vpassword.set(datos[1])
+            self.apellidos=vapellidos.set(datos[2])
+            self.direccion=vdireccion.set(datos[3])
+        #self.comentario=vcomentario.set())
+       
         
-
-
-
     def interfaz(self):
       
         self.raiz=Tk()
@@ -127,7 +118,7 @@ class Cuestionario:
         
         menuayuda = Menu(menubarra, tearoff=0)
         menuayuda.add_command(label="Crear", command=c.ingresar_usuario)
-        menuayuda.add_command(label="Leer", command=lambda: consultar_bbdd(int(vid.get())))
+        menuayuda.add_command(label="Leer", command=c.lee_usuario)
         menuayuda.add_command(label="Actualizar", command=c.actualizar_usuario)
         menuayuda.add_command(label="Borrar", command=c.borrar_usuario)
         menubarra.add_cascade(label="CRUD", menu=menuayuda)
@@ -165,8 +156,6 @@ class Cuestionario:
         self.boton10=Button(self.raiz,text="Borrar", command=c.borrar_usuario).place(x=220,y=350)
         #self.espaciox.pack()
         Label(self.raiz).pack()
-
-
 
 # Mostrar el menu
         self.raiz.config(menu=menubarra)

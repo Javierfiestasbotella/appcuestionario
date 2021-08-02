@@ -7,24 +7,22 @@ from datetime import datetime
 import time as t
 from tkinter import messagebox
 global resultado
-global messagebox
 
 dbConnect={
     'host':'lldk499.servidoresdns.net',
     'user':'qadr580',
-    'password':'*******',
+    'password':'Calafate1123',
     'database':'qadr580',
     
 
 }
-def crear_tabla():#crea ok
+#crea ok
+def crear_tabla():
     conexion=mysql.connector.connect(**dbConnect)
     cursor=conexion.cursor()
     cursor.execute("CREATE TABLE datos1 (id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(255), password VARCHAR(10), apellidos VARCHAR(20), direccion VARCHAR(255), comentario VARCHAR(150))")
-
-
 #Consultar tabla de la bbdd consulta la base de datos actual
-def consultar_bbdd(n):
+def consultar_bbdd(n,nombre,contra,apellidos,email,datos):
     global resultado
     global bd
     conexion=mysql.connector.connect(**dbConnect)
@@ -32,16 +30,23 @@ def consultar_bbdd(n):
     sql="Select * from datos1 Where id={}".format(n)
     cursor.execute(sql)
     resultado=cursor.fetchall()
-    #print(resultado)
-    #print( datos[0],datos[1],datos[2],datos[3],datos[4])
     for datos in resultado:
-        #bd=str(datos[1])+" "+datos[2]+" "+datos[3]+" "+str(datos[4])+"\n"
+        nombre=datos[1]
+        contra=datos[2]
+        apellidos=datos[3]
+        email=datos[4]
+        bd=str(datos[1])+" "+datos[2]+" "+datos[3]+" "+str(datos[4])+"\n"
         bd='Nombre--> {}\nContraseña--> {}\nApellidos--> {}\nEmail--> {}'.format(datos[1],datos[2],datos[3],datos[4])
+        datos=[nombre,contra,apellidos,email]
+        return datos
         messagebox.showinfo(message=bd)
-        #print(bd)
 
-def registrar(nombre, password,apellidos,direccion,comentario):#registra ok
-    #introducir nuevo usuario
+        
+        
+    
+    
+#registra ok
+def registrar(nombre, password,apellidos,direccion,comentario):
     conexion=mysql.connector.connect(**dbConnect)
     cursor=conexion.cursor()
     sql = "INSERT INTO datos1 (nombre,password,apellidos, direccion,comentario) VALUES (%s,%s,%s,%s,%s)"
@@ -51,7 +56,7 @@ def registrar(nombre, password,apellidos,direccion,comentario):#registra ok
     conexion.commit()
     cursor.close()
     conexion.close()
-
+#borra ok
 def borrar(n):
     conexion=mysql.connector.connect(**dbConnect)
     cursor=conexion.cursor()
@@ -59,6 +64,7 @@ def borrar(n):
     
 
     conexion.commit()
+
 def inicio_de_sesion():
     global usuario_usu
     global resultado
@@ -77,6 +83,7 @@ def inicio_de_sesion():
         inicio_de_sesion()
     #messagebox.showinfo(message="contraseña correcta", title="Inicio Usuario")
     print("Bienvenido {} eres nuestro usuario nº {} y tienes el nivel:{}".format(resultado[1],resultado[0],resultado[3]))
+
 def imp():
     print('CONEXION OK')
 
