@@ -11,7 +11,7 @@ global resultado
 dbConnect={
     'host':'lldk499.servidoresdns.net',
     'user':'qadr580',
-    'password':'*******',
+    'password':'*********',
     'database':'qadr580',
     
 

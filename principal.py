@@ -10,6 +10,7 @@ from bbdd import *
 
 class Cuestionario:
 
+
     def __init__(self):
         self.id=''
         self.nombre=''
@@ -18,12 +19,41 @@ class Cuestionario:
         self.direccion=''
         self.comentario=''
 
+    def contra(self,passw):
+        if len(passw)<=9:
+            messagebox.showerror("La contraseña debe tener al menos 10 caractéres")
+            self.password=vpassword.set('')
+
+        elif passw.isalnum()==True:
+            messagebox.showerror ("La contraseña debe tener al menos un carácter no alfanumérico")
+            self.password=vpassword.set('')
+
+        elif passw.lower() == passw:
+            messagebox.showerror("Debe haber por lo menos una mayúscula")
+            self.password=vpassword.set('')
+
+        elif passw.upper()==passw:
+            messagebox.showerror("Debe haber por lo menos una minúscula")
+            self.password=vpassword.set('')
+
+        for i in passw:
+            if i==" ":
+                messagebox.showerror("La contraseña no debe tener espacios en blanco")
+                self.password=vpassword.set('')
+
+        return True
+
     def ingresar_usuario(self):
         self.nombre=vnombre.get()#input('Introduce tu nombre completo: ')
         self.password=vpassword.get()#getpass.getpass("Introduzca su contraseña: ")
         self.apellidos=vapellidos.get()#input('Introduzaca sus apellidos: ')
         self.direccion=vdireccion.get()#input('Introduzca su dirección: ')
         self.comentario=vcomentario.get()#input('Introduzca su comentario: ')
+        try:
+            c.contra(vpassword.get())
+        except:
+            messagebox.showinfo('A ver que pasa')
+
         registrar(c.nombre,c.password,c.apellidos,c.direccion,c.comentario)
         c.borrar_campos()
 
@@ -63,16 +93,19 @@ class Cuestionario:
             messagebox.askokcancel(message='Esta tabla ya está creada ')
             
     def lee_usuario(self):
-        lista=[]
-        self.id=int(vid.get())
-        datos=consultar_bbdd(c.id,c.nombre,c.password,c.apellidos,c.direccion,lista)
-        for i in datos:
-        #print(resultado)
-            self.nombre=vnombre.set(datos[0])
-            self.password=vpassword.set(datos[1])
-            self.apellidos=vapellidos.set(datos[2])
-            self.direccion=vdireccion.set(datos[3])
-        #self.comentario=vcomentario.set())
+        try:
+            lista=[]
+            self.id=int(vid.get())
+            datos=consultar_bbdd(c.id,c.nombre,c.password,c.apellidos,c.direccion,lista)
+            for i in datos:
+            #print(resultado)
+                self.nombre=vnombre.set(datos[0])
+                self.password=vpassword.set(datos[1])
+                self.apellidos=vapellidos.set(datos[2])
+                self.direccion=vdireccion.set(datos[3])
+            #self.comentario=vcomentario.set())
+        except TypeError:
+            messagebox.showinfo('El usuario con Id-> {} no existe o ha sido borrado'.format(int(vid.get())))
        
         
     def interfaz(self):
