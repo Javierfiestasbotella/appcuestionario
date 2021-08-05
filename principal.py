@@ -49,11 +49,6 @@ class Cuestionario:
         self.apellidos=vapellidos.get()#input('Introduzaca sus apellidos: ')
         self.direccion=vdireccion.get()#input('Introduzca su dirección: ')
         self.comentario=vcomentario.get()#input('Introduzca su comentario: ')
-        try:
-            c.contra(vpassword.get())
-        except:
-            messagebox.showinfo('A ver que pasa')
-
         registrar(c.nombre,c.password,c.apellidos,c.direccion,c.comentario)
         c.borrar_campos()
 
@@ -115,8 +110,9 @@ class Cuestionario:
         self.raiz.geometry("280x450+0+0")
         self.raiz.iconbitmap("rubik.ico")
         self.raiz.title(self.nombre_usuario)
-        #self.fondo=PhotoImage(file="Repite Botella/myAvatari (1).gif",width=203,height=248)
-        #self.lblFondo=Label(self.raiz,image=self.fondo).place(x=0,y=0)
+        
+        self.fondo=PhotoImage(file="python.png",width=253,height=248)
+        self.lblFondo=Label(self.raiz,image=self.fondo).place(x=0, y=220)
         # Crear el menu principal
         global vnombre
         global vapellidos
